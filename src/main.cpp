@@ -19,6 +19,7 @@ constexpr float WORLD_WIDTH = WORLD_TEX_WIDTH * (WINDOW_HEIGHT / WORLD_TEX_HEIGH
 constexpr float WORLD_HEIGHT = WINDOW_HEIGHT;
 constexpr float SOFT_LIMIT_PERCENT = 1.f / 3;
 constexpr float HARD_LIMIT_PERCENT = 1.f / 5;
+bool startup = true;
 
 constexpr float SOFT_CAMERA_ALPHA = 0.1f;
 
@@ -137,8 +138,36 @@ int main() {
         // player center must NEVER pass the red lines.
         //
         // Use SOFT_LIMIT_PERCENT and HARD_LIMIT_PERCENT to parameterize the green and red
-        // line positions.
-        camera.setCameraCenter({player.position.x, WINDOW_HEIGHT * 0.5f});
+        // line positions
+        // .
+        if(camera.worldToWindow(player.position).x >= WINDOW_WIDTH / 3.f && camera.worldToWindow(player.position).x <= WINDOW_WIDTH * 2.f / 3.f){
+            if(startup == true){
+                camera.setCameraCenter({WINDOW_WIDTH*0.5f, WINDOW_HEIGHT * 0.5f});
+                startup = false;
+            }else{
+                camera.translateWindow({0.f , 0.f});      
+            }
+        }
+        else if ((camera.worldToWindow(player.position).x < WINDOW_WIDTH * HARD_LIMIT_PERCENT) || (camera.worldToWindow(player.position).x > WINDOW_WIDTH * 4.f * HARD_LIMIT_PERCENT)){
+            float cameraOffset = WINDOW_WIDTH * HARD_LIMIT_PERCENT;
+            if(camera.worldToWindow(player.position).x < WINDOW_WIDTH * HARD_LIMIT_PERCENT) {
+                camera.translateWindow({camera.worldToWindow(player.position).x - cameraOffset , WINDOW_WIDTH *0.f});
+            }
+            else if( camera.worldToWindow(player.position).x > WINDOW_WIDTH * 4.f * HARD_LIMIT_PERCENT){
+                camera.translateWindow({camera.worldToWindow(player.position).x - cameraOffset*4.f , WINDOW_WIDTH *0.f});
+            }
+        }
+        else if ((camera.worldToWindow(player.position).x < WINDOW_WIDTH *SOFT_LIMIT_PERCENT) || (camera.worldToWindow(player.position).x > WINDOW_WIDTH * 2.f * SOFT_LIMIT_PERCENT)){
+            float cameraOffset = WINDOW_WIDTH * SOFT_LIMIT_PERCENT;
+            if(camera.worldToWindow(player.position).x < WINDOW_WIDTH * SOFT_LIMIT_PERCENT) {
+                camera.translateWindow({(camera.worldToWindow(player.position).x - cameraOffset) * SOFT_CAMERA_ALPHA, WINDOW_WIDTH *0.f });
+            }
+            else if( camera.worldToWindow(player.position).x > WINDOW_WIDTH * 2.f * SOFT_LIMIT_PERCENT){
+                camera.translateWindow({(camera.worldToWindow(player.position).x - cameraOffset*2.f)* SOFT_CAMERA_ALPHA , WINDOW_WIDTH *0.f});
+            }
+        }
+        
+        
 
         worldView.setCenter(camera.getCameraCenter());
         window.clear(sf::Color::Black);
