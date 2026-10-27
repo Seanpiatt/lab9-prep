@@ -48,7 +48,7 @@ public:
         // std::cout <<"normalizedWindowCoord: "<< normalizedWindowCoord <<"\n";
         sf::Vector2f pWorld =  mViewCenterWorld + (normalizedWindowCoord - mWindowSize/division)*mWorldUnitsPerPixel;
         //pWorld = pWorld * mWorldUnitsPerPixel;
-        std::cout<<"world"<< pWorld <<"\n\n";
+        // std::cout<<"world"<< pWorld <<"\n\n";
         return pWorld;
      };
 
@@ -72,18 +72,18 @@ public:
     };
 
     void translateWindow(const sf::Vector2f& deltaScreen) {
-        std::cout <<"Deltawindow: "<< deltaScreen <<"\n";
-        std::cout <<"mViewCenterWorld Before: "<< mViewCenterWorld <<"\n";
+        // std::cout <<"Deltawindow: "<< deltaScreen <<"\n";
+        // std::cout <<"mViewCenterWorld Before: "<< mViewCenterWorld <<"\n";
         mViewCenterWorld = mViewCenterWorld + deltaScreen/mWorldUnitsPerPixel;
-        std::cout <<"mViewCenterWorld After:: "<< mViewCenterWorld <<"\n\n";
+        // std::cout <<"mViewCenterWorld After:: "<< mViewCenterWorld <<"\n\n";
     };
 
     void translateWindowPercent(const sf::Vector2f& deltaScreenPercent) {
         
-        std::cout <<"Deltawindow Percent: "<< deltaScreenPercent <<"\n";
-        std::cout <<"mViewCenterWorld Before: "<< mViewCenterWorld <<"\n";
+        // std::cout <<"Deltawindow Percent: "<< deltaScreenPercent <<"\n";
+        // std::cout <<"mViewCenterWorld Before: "<< mViewCenterWorld <<"\n";
         mViewCenterWorld = mViewCenterWorld + (deltaScreenPercent*mWindowSize)/mWorldUnitsPerPixel;
-        std::cout <<"mViewCenterWorld After:: "<< mViewCenterWorld <<"\n\n";
+        // std::cout <<"mViewCenterWorld After:: "<< mViewCenterWorld <<"\n\n";
     };
 
     void setCamera(const sf::Vector2f& pWorld, const sf::Vector2f& pWindow) {
